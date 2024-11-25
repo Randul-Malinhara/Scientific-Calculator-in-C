@@ -34,7 +34,7 @@
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "c:/Users/RANDUL/scientific calculator C/Scientific-Calculator-in-C",
-      "program": "c:/Users/RANDUL/scientific calculator C/Scientific-Calculator-in-C/.vscode/launch.json ",
+      "program": "c:/Users/RANDUL/scientific calculator C/Scientific-Calculator-in-C/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
