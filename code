@@ -6,13 +6,93 @@
 void graphics();
 void text();
 
-void main() {
+// Function to draw the Cartesian Plane
+void drawAxes(int midX, int midY) {
+    setcolor(WHITE);
+
+    // Draw X-axis
+    line(0, midY, getmaxx(), midY);
+
+    // Draw Y-axis
+    line(midX, 0, midX, getmaxy());
+
+    // Mark units on the axes
+    for (int x = midX; x < getmaxx(); x += 20) putpixel(x, midY, WHITE);
+    for (int x = midX; x > 0; x -= 20) putpixel(x, midY, WHITE);
+    for (int y = midY; y < getmaxy(); y += 20) putpixel(midX, y, WHITE);
+    for (int y = midY; y > 0; y -= 20) putpixel(midX, y, WHITE);
+}
+
+// Function to plot the graph of y = f(x)
+void plotGraph(int midX, int midY, float (*func)(float)) {
+    float scale = 20; // Scale for units
+    int prevX = -1, prevY = -1;
+
+    for (float x = -10; x <= 10; x += 0.1) {
+        float y = func(x);
+
+        // Map real-world coordinates to pixel coordinates
+        int pixelX = midX + (int)(x * scale);
+        int pixelY = midY - (int)(y * scale);
+
+        if (prevX != -1 && prevY != -1) {
+            // Draw a line between consecutive points for smoothness
+            line(prevX, prevY, pixelX, pixelY);
+        }
+
+        prevX = pixelX;
+        prevY = pixelY;
+    }
+}
+
+// Example functions
+float square(float x) {
+    return x * x;
+}
+
+float sine(float x) {
+    return sin(x);
+}
+
+float cosine(float x) {
+    return cos(x);
+}
+
+// Main function
+int main() {
     int gd = DETECT, gm;
     initgraph(&gd, &gm, "C:\\TURBOC3\\BGI");
-    clrscr();
-    graphics();
-    text();
+
+    int midX = getmaxx() / 2;
+    int midY = getmaxy() / 2;
+
+    setbkcolor(BLACK);
+    cleardevice();
+
+    // Draw the axes
+    drawAxes(midX, midY);
+
+    // User choice
+    int choice;
+    printf("Choose a function to plot:\n");
+    printf("1. y = x^2\n2. y = sin(x)\n3. y = cos(x)\n");
+    scanf("%d", &choice);
+
+    // Plot the chosen graph
+    setcolor(GREEN);
+    if (choice == 1) {
+        plotGraph(midX, midY, square);
+    } else if (choice == 2) {
+        plotGraph(midX, midY, sine);
+    } else if (choice == 3) {
+        plotGraph(midX, midY, cosine);
+    } else {
+        printf("Invalid choice!");
+    }
+
+    getch();
     closegraph();
+    return 0;
 }
 
 void graphics() {
